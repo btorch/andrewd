@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+#export BUILDPATH := $(shell mktemp -d)
+#export BUILDPATH := $(CURDIR)
+export GOROOT=/usr/local/go
+export GOPATH := /tmp/buildd
+export GOBIN := ${GOPATH}/bin
+export GOPKG := ${GOPATH}/pkg
+export GOSRC := ${GOPATH}/src
+export GO := ${GOROOT}/bin/go
+
+export PATH := ${PATH}:/usr/local/go/bin
+
+export DH_VERBOSE = 1
+export DH_OPTIONS
+export DH_GOPKG := github.com/btorch/andrewd
+
+
+
+override_dh_auto_build:
+	echo "gopath = ${GOPATH}"
+	echo "curdir = $(CURDIR)"
+	mkdir -p ${GOBIN} ${GOPKG} ${GOSRC}
+	mkdir -p ${GOSRC}/github.com/btorch
+	ln -s $(CURDIR) ${GOSRC}/${DH_GOPKG}
+	cd ${GOSRC}/${DH_GOPKG}/ && make get all
+
+# FIXME: tests currently fail
+#override_dh_auto_install:
+#override_dh_install:
+override_dh_auto_test:
+override_dh_auto_clean:
+
+override_dh_installinit:
+	dh_installinit --no-start
+	dh_installinit --no-start -pandrewd --init-script=andrewd
+
+
+%:
+	dh $@ --buildsystem=golang --with=golang

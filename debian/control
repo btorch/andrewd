@@ -1,0 +1,31 @@
+Source: andrewd
+Section: devel
+Priority: extra
+Maintainer: CloudFiles Team <marcelo.martins@rackspace.com>
+Uploaders: Marcelo Martins <marcelo.martins@rackspace.com>
+Build-Depends: debhelper (>= 7.0.50~),
+               dh-golang
+Standards-Version: 3.9.8
+Homepage: https://github.com/btorch/andrewd
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-go/packages/andrewd.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-go/packages/andrewd.git
+XS-Go-Import-Path: github.com/btorch/andrewd
+
+Package: andrewd
+Architecture: any
+Built-Using: ${misc:Built-Using}
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: 
+ AndrewD This OpsRobot is a daemon that will help run your swift cluster.
+ Currently it keeps track of unmounted drives in a swift cluster and if
+ they go unmounted for more than 3 days (by default) it will remove the
+ drive from the ring.
+ .
+ It uses the recon api on the swift object server to query the unmounted
+ drives on the cluster so it requires network access to your storage
+ nodes to run.
+ .
+ The unmounted drives will be kept track of using a local sqlite db.
+ It creates a json report of its progress in a configurable location.
+ Config file explanation can be found on github project.

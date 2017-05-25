@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+#DEBHELPER#
+
+if ! getent passwd andrewd > /dev/null ; then
+  addgroup --system --quiet --gid 700 andrewd
+  adduser --system --quiet --disabled-login --disabled-password --no-create-home --uid 700 --gid 700 andrewd
+fi
+
+usermod -G adm andrewd
+
+if [ -d /var/cache/andrewd ]; then
+    chown andrewd:andrewd /var/cache/andrewd
+fi
+
